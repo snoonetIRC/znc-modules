@@ -129,6 +129,7 @@ class autoexpire(SnooModule):
                 sock.GetSession().AddSuccess("Set [{}] NoExpire".format(username))
             elif old:
                 if is_noexpire:
+                    self.set_noexpire(username, False)
                     sock.GetSession().AddSuccess("Unset [{}] NoExpire".format(username))
                 else:
                     sock.GetSession().AddError("User [{}] is not set NoExpire".format(username))
