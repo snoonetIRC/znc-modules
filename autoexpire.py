@@ -168,12 +168,17 @@ class autoexpire(SnooModule):
         users = self.znc_core.GetUserMap()
         now = time.time()
         for name, user in users.items():
-            if user.IsBeingDeleted() or user.IsUserAttached() or user.IsAdmin() or name in self.noexpire:
+            if user.IsBeingDeleted():
+                continue
+            if user.IsUserAttached() or user.IsAdmin() or name in self.noexpire:
+                self.activity[user.GetUserName()] = time.time()
                 continue
 
             active = self.get_last_active(name)
             if (now - active) > self.expiry:
                 self.expire_user(user)
+
+        self.save_nv()
 
     def get_last_active(self, name):
         try:
