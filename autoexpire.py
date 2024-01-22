@@ -137,7 +137,7 @@ class autoexpire(SnooModule):
         return True
 
     @command("clearactivity", admin=True)
-    def cmd_clearactivity(self, username, state=None):
+    def cmd_clearactivity(self):
         """Clear all user activity, resetting all expire counters
         """
         self.activity.clear()
