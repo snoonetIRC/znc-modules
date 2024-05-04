@@ -34,6 +34,22 @@ TIME_MULTIPLIERS = {
 }
 
 
+def format_duration(diff):
+    out = ""
+    for unit, td in sorted(TIME_MULTIPLIERS.items(), key=lambda item: item[1].total_seconds()):
+        seconds = td.total_seconds()
+        if seconds == 1:
+            count = int(diff)
+            diff = 0
+        else:
+            count, diff = divmod(diff, seconds)
+
+        if count > 0:
+            out += f"{int(count)}{unit}"
+
+    return out
+
+
 def parse_duration(s):
     subtotal = 0
     total = 0
@@ -123,6 +139,7 @@ class autoexpire(SnooModule):
         old = sock.GetParam("embed_autoexpire_old") == "1"
         if action == "display":
             tmpl["NoExpire"] = "1" if is_noexpire else "0"
+            tmpl["ExpiresIn"] = "Never" if is_noexpire else format_duration(self.expiry - (time.time() - self.get_last_active()))
         elif action == "change" and sock.GetParam("embed_autoexpire_presented"):
             if sock.GetParam("embed_autoexpire_noexpire") == "1":
                 self.set_noexpire(username, True)
