@@ -36,7 +36,7 @@ TIME_MULTIPLIERS = {
 
 def format_duration(diff):
     out = ""
-    for unit, td in sorted(TIME_MULTIPLIERS.items(), key=lambda item: item[1].total_seconds()):
+    for unit, td in sorted(TIME_MULTIPLIERS.items(), key=lambda item: item[1].total_seconds(), reverse=True):
         seconds = td.total_seconds()
         if seconds == 1:
             count = int(diff)
