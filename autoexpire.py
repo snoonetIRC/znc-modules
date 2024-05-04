@@ -139,7 +139,7 @@ class autoexpire(SnooModule):
         old = sock.GetParam("embed_autoexpire_old") == "1"
         if action == "display":
             tmpl["NoExpire"] = "1" if is_noexpire else "0"
-            tmpl["ExpiresIn"] = "Never" if is_noexpire else format_duration(self.expiry - (time.time() - self.get_last_active()))
+            tmpl["ExpiresIn"] = "Never" if is_noexpire else format_duration(self.expiry - (time.time() - self.get_last_active(username)))
         elif action == "change" and sock.GetParam("embed_autoexpire_presented"):
             if sock.GetParam("embed_autoexpire_noexpire") == "1":
                 self.set_noexpire(username, True)
